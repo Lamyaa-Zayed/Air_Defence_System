@@ -22,6 +22,7 @@ extern void Alarm_Serine_Gen();
 extern void LCD_Display();
 extern void SPI_Slave_Driver();
 extern void UART_Master_Driver();
+extern void Stop_Missile_Sender();
 extern void Flasher();
 
 // Voltage Reference: AREF pin

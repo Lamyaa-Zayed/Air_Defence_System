@@ -39,6 +39,7 @@ Data Stack size         : 256
  static unsigned int Wind_Speed_Reading;
  //static unsigned char Detected_Target;
  static unsigned char SPDR_Count;
+ static unsigned char Missile_NUM;
  static Coordinates Target;
 
 // Timer 0 overflow interrupt service routine
@@ -138,16 +139,25 @@ void Air_Defence_init()
    delay_ms(100);
    UDR=Target.x;
    while(!(UCSRA & (1<<TXC)));
+   Missile_NUM++;
    delay_ms(100);
    UDR=Target.y;
    while(!(UCSRA & (1<<TXC)));
+   Missile_NUM++;
    delay_ms(100);
    UDR=Target.z;
    while(!(UCSRA & (1<<TXC)));
+   Missile_NUM++;
    delay_ms(100);
    i++;
    i=i%10; 
- }  
+ } 
+ 
+ void Stop_Missile_Sender(void)
+ {
+   if(Missile_NUM>24)
+   UCSRB&=~(1<<TXEN); 
+ } 
  
  void Flasher(void)
  {
@@ -173,6 +183,7 @@ void main(void)
           Target_Serine_Gen();
           Alarm_Serine_Gen();
           UART_Master_Driver();
+          Stop_Missile_Sender();
           Flasher();
           
           //MCUCR |=(1<<SE);
