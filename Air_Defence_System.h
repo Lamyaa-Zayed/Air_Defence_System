@@ -8,6 +8,7 @@
              
  typedef struct 
     {
+    unsigned char ID;
     unsigned char x;
     unsigned char y;
     unsigned char z;
@@ -21,6 +22,7 @@ extern void Alarm_Serine_Gen();
 extern void LCD_Display();
 extern void SPI_Slave_Driver();
 extern void UART_Master_Driver();
+extern void Flasher();
 
 // Voltage Reference: AREF pin
 #define ADC_VREF_TYPE ((0<<REFS1) | (0<<REFS0) | (0<<ADLAR))

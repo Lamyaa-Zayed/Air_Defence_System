@@ -7,7 +7,8 @@ extern void Missile_Launcher_init();
 extern void LCD_Display();
 
 typedef struct 
-    {
+    {             
+    unsigned char ID;
     unsigned char x;
     unsigned char y;
     unsigned char z;

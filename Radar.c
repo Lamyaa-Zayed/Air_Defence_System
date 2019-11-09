@@ -114,7 +114,7 @@ void LCD_Display(void)
      lcd_putchar((i|0x30));
      
      lcd_gotoxy(11,1);
-     lcd_puts("Axis ");
+     lcd_puts(" Axis");
      
      lcd_gotoxy(0,1);
      lcd_puts(Str); 

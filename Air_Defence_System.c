@@ -34,6 +34,7 @@ Data Stack size         : 256
 // Declare your global variables here
 #define Target_Serine 0
 #define Alarm_Serine 1
+#define Check_LED 3
 
  static unsigned int Wind_Speed_Reading;
  //static unsigned char Detected_Target;
@@ -130,7 +131,11 @@ void Air_Defence_init()
  
  void UART_Master_Driver(void)     //write (transmitt) uart msg
  {
-   
+   static unsigned char i;
+   Target.ID=i;
+   UDR=Target.ID;
+   while(!(UCSRA & (1<<TXC)));
+   delay_ms(100);
    UDR=Target.x;
    while(!(UCSRA & (1<<TXC)));
    delay_ms(100);
@@ -139,9 +144,18 @@ void Air_Defence_init()
    delay_ms(100);
    UDR=Target.z;
    while(!(UCSRA & (1<<TXC)));
-   delay_ms(100); 
+   delay_ms(100);
+   i++;
+   i=i%10; 
  }  
  
+ void Flasher(void)
+ {
+ PORTA|=(1<<Check_LED);
+ delay_ms(250);
+ PORTA&=~(1<<Check_LED);
+ delay_ms(250);
+ }
  
 void main(void)
  {
@@ -159,11 +173,8 @@ void main(void)
           Target_Serine_Gen();
           Alarm_Serine_Gen();
           UART_Master_Driver();
-         
-          PORTA|=(1<<3);
-          delay_ms(500);
-          PORTA&=~(1<<3);
-          delay_ms(500);
+          Flasher();
+          
           //MCUCR |=(1<<SE);
         }
  }

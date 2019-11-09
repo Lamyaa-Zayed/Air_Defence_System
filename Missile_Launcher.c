@@ -42,7 +42,10 @@ void Missile_Launcher_init()
  
  Coordinates UART_Slave_Driver(void)     //read (receive) uart msg
  {
-    unsigned char i; 
+    unsigned char i;
+    while(!(UCSRA & (1<<RXC)));
+   //Count++;
+   Target.ID=UDR; 
    while(!(UCSRA & (1<<RXC)));
    Count++;
    Target.x=UDR;
@@ -58,6 +61,7 @@ void Missile_Launcher_init()
    {
      for(i=0;i<LEDs_NUM;i++)
     {
+        if(Target.ID==i)
         PORTB|=(1<<i);
     }
     }
@@ -91,6 +95,8 @@ void LCD_Display()
      lcd_puts(Str1);
       
      lcd_gotoxy(0,1);
+     sprintf(Str1,"%dID ",Target.ID);
+     lcd_puts(Str1); 
      sprintf(Str1,"%dX",Target.x);
      lcd_puts(Str1);  
      sprintf(Str1," %dY",Target.y);
